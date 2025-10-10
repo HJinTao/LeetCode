@@ -1,37 +1,17 @@
-/*
- * @lc app=leetcode.cn id=206 lang=cpp
- *
- * [206] 反转链表
- */
-
-// @lc code=start
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 #include<LeetCodeStructs.h>
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if(!head || !head->next) 
-            return head;
-        ListNode* fast = head;
-        ListNode* slow = head->next;
-        while(slow){
-            ListNode* temp = slow->next;
-            slow->next = fast;
-            fast = slow;
-            slow = temp;
+        //重写,改用pre cur next 明确cur的含义是当前要更改方向的节点
+        ListNode *pre = nullptr;
+        ListNode *cur = head;
+        ListNode *next;
+        while(cur){
+            next = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = next;
         }
-        head->next = nullptr;
-        return fast;
+        return pre;
     }
 };
-// @lc code=end
-
