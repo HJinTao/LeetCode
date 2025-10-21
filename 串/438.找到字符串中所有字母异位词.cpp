@@ -1,40 +1,34 @@
 #include<LeetCodeStructs.h>
+#define lHash s[left] - 'a'
+#define rHash s[right] - 'a'
 class Solution {
 public:
-    int hash[26] = {0}; 
     vector<int> findAnagrams(string s, string p){
-        vector<int> res;
         int n = s.size();
         int m = p.size();
-        if(n < m){
-            return {};
+        if(n < m) return {};
+        
+        vector<int> res;
+        int need[26] = {0};
+        int formed = 0;
+        int required = 0;
+        for(int i = 0; i < m; i++){
+            if(need[p[i] - 'a']++ == 0) required++;
         }
         for(int i = 0; i < m; i++){
-            hash[s[i] - 'a']++;
-            hash[p[i] - 'a']--;
+            if(--need[s[i] - 'a'] == 0) formed++;
         }
-        if(isAllZero()){
-            res.push_back(0);
-        }
-        int left = 0;
+        if(required == formed) res.push_back(0);
         int right;
         for(int left = 0; left < n - m; left++){ // (left,right]
             right = left + m;
-            hash[s[left] - 'a']--;
-            hash[s[right] - 'a']++;
-            if(isAllZero()){
+            if(need[lHash]++ == 0) formed--;
+            if(--need[rHash] == 0) formed++;
+            if(formed == required){
                 res.push_back(left + 1);
             }
         }
         return res;
-    }
-
-    bool isAllZero(){
-        for(int i = 0; i < 26; i++){
-            if(hash[i] != 0)
-                return false;
-        }
-        return true;
     }
 };
 // vector<int> findAnagrams(string s, string p) {
