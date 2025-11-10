@@ -16,8 +16,8 @@ public:
             else{
                 return mid;
             }
-            return left;
         }
+        return left;
     }
 };
 
